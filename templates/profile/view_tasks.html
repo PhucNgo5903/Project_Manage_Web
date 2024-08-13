@@ -1,0 +1,84 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/solar/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>TaskManabu | View tasks</title>
+</head>
+
+{% include 'profile/base.html' %}
+
+<body>
+    <br>
+    <h3 class="text-center">View tasks</h3>
+    <hr>
+
+    <div class="container bg-white shadow-md p-5 form-layout" style="margin-top:20px;">
+        <form method="GET">
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select name="priority" id="priority" class="form-control">
+                    <option value="" {% if selected_priority == "" %}selected{% endif %}>All</option>
+                    <option value="Low" {% if selected_priority == "Low" %}selected{% endif %}>Low</option>
+                    <option value="Medium" {% if selected_priority == "Medium" %}selected{% endif %}>Medium</option>
+                    <option value="High" {% if selected_priority == "High" %}selected{% endif %}>High</option>
+                </select>
+            </div>
+            <br>
+
+            <div class="form-group">
+                <label for="member">Member:</label>
+                <select name="member" id="member" class="form-control">
+                    <option value="" {% if selected_member == "" %}selected{% endif %}>All</option>
+                    {% for user in all_users %}
+                        <option value="{{ user.id }}" {% if selected_member == user.id %}selected{% endif %}>{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <br>
+
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+    </div>
+
+    {% if tasks_with_members %}
+        {% for item in tasks_with_members %}
+            <div class="container bg-white shadow-md p-5 form-layout" style="margin-top:20px;">
+                <strong>Title:</strong> {{ item.task.title }}
+                <br><br>
+                <strong>Content:</strong> {{ item.task.content }}
+                <br><br>
+                <strong>Date Posted:</strong> {{ item.task.date_posted|date:"d/m/Y H:i:s" }}
+                <br><br>
+                <strong>Priority:</strong>
+                <span class="priority-{{ item.task.priority }}">
+                    {{ item.task.get_priority_display }}
+                </span>
+                
+                <br><br>
+                <strong>Members:</strong>
+                <ul>
+                    {% for member in item.members %}
+                        <li>{{ member.username }}</li>
+                    {% endfor %}
+                </ul>
+                <br><br>
+
+                <a class="btn btn-info navbar-btn" type="button" href="{% url 'update_task' project.id item.task.id %}">Update task</a>
+                <br><br>
+                <a class="btn btn-danger navbar-btn" type="button" href="{% url 'delete_task' project.id item.task.id %}">Delete task</a>
+                <br><br>
+                <a class="btn btn-warning navbar-btn" type="button" href="{% url 'explain_task_content' project.id item.task.id %}">AI Explanation</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="container bg-white shadow-md p-5 form-layout" style="margin-top:20px;">
+            <p>No tasks found.</p>
+        </div>
+    {% endif %}
+</body>
+</html>

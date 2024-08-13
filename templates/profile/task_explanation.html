@@ -1,0 +1,30 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/solar/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>TaskManabu | Task Explanation</title>
+</head>
+
+{% include 'profile/base.html' %}
+
+<body>
+    <br>
+    <h3 class="text-center">Task Explanation</h3>
+    <hr>
+
+    <div class="container bg-white shadow-md p-5 form-layout" style="margin-top:20px;">
+        <h4>Task Content:</h4>
+        <p>{{ task.content }}</p>
+
+        <h4>AI Explanation:</h4>
+        <p>{{ explanation }}</p>
+
+        
+    </div>
+</body>
+</html>
