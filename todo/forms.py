@@ -69,12 +69,24 @@ class UpdateUserForm(forms.ModelForm):
         fields = ['username', 'email']
         exclude = ['password1', 'password2']
 
-
+"""
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['full_name', 'birthday', 'personality', 'hobbies', 'skills', 'github']
-
+        fields = ['full_name', 'birthday', 'personality', 'hobbies', 'skills', 'github', 'profile_pic']
+"""
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['full_name', 'birthday', 'personality', 'hobbies', 'skills', 'github', 'profile_pic']
+    
+    full_name = forms.CharField(required=False)
+    birthday = forms.DateField(required=False)
+    personality = forms.CharField(required=False, widget=forms.Textarea)
+    hobbies = forms.CharField(required=False, widget=forms.Textarea)
+    skills = forms.CharField(required=False, widget=forms.Textarea)
+    github = forms.URLField(required=False)
+    profile_pic = forms.ImageField(required=False)
 # - Update a profile picture
 class UpdateProfileForm(forms.ModelForm):
     profile_pic = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
