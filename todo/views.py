@@ -59,7 +59,7 @@ def dashboard(request):
             form.save()
             return redirect('dashboard')
         else:
-            print(form.errors)  # In ra lỗi nếu form không hợp lệ
+            print(form.errors)  
     else:
         form = ProfileForm(instance=profile)
 
@@ -166,26 +166,7 @@ def viewTasks(request, project_id):
     
     return render(request, 'profile/view_tasks.html', context)
 # Cập nhật task
-"""
-@login_required(login_url='my_login')
-def updateTask(request, project_id, pk):
-    project = get_object_or_404(Project, id=project_id, users=request.user)
-    task = get_object_or_404(Task, id=pk, project=project)
-    
-    if request.method == 'POST':
-        
-        form = UpdateTaskForm(request.POST, instance=task, project=project)
-        if form.is_valid():
-            updated_task = form.save(commit=False)
-            updated_task.save()
-            form.save_m2m()  # Lưu các quan hệ Many-to-Many như members
-            return redirect('view_tasks', project_id=project.id)
-    else:
-        form = UpdateTaskForm(instance=task, project=project)
-    
-    context = {'form': form, 'project': project}
-    return render(request, 'profile/update_task.html', context=context)
-"""
+
 @login_required(login_url='my_login')
 def updateTask(request, project_id, pk):
     project = get_object_or_404(Project, id=project_id, users=request.user)

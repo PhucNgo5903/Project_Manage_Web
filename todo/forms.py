@@ -69,12 +69,7 @@ class UpdateUserForm(forms.ModelForm):
         fields = ['username', 'email']
         exclude = ['password1', 'password2']
 
-"""
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['full_name', 'birthday', 'personality', 'hobbies', 'skills', 'github', 'profile_pic']
-"""
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
